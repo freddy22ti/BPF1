@@ -1,20 +1,9 @@
 <script setup>
-import Navbar from "./components/Navbar.vue";
-import ListQuestion from './components/ListQuestion.vue'
+import { RouterView } from "vue-router";
 </script>
 
 <template>
-  <header>
-		<Navbar />
-  </header>
-
-
-	<main>
-    <ListQuestion />
-	</main>
+	<RouterView />
 </template>
 
-<style scoped>
-
-
-</style>
+<style scoped></style>
