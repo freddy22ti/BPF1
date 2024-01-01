@@ -46,7 +46,7 @@ router.put(
 ); // update
 router.delete(
 	"/question/:id",
-	[requireAuth, ownedByOwnerAndAdmin],
+	[requireAuth],
 	PertanyaanController.deleteById
 ); // delete
 

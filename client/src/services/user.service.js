@@ -45,7 +45,7 @@ export const updateQuestion = (id, question) => {
 };
 
 export const deleteQuestion = (id) => {
-	return axios.get(API_URL + "question/" + id, {
+	return axios.delete(API_URL + "question/" + id, {
 		headers: authHeader(),
 	});
 };

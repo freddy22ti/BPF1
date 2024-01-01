@@ -29,7 +29,11 @@
 		</div>
 		<!-- answer block -->
 		<div v-for="item in state.jawaban" :key="item.id">
-			<AnswerBlock :username="item.User.username" :jawaban="item.isi" />
+			<AnswerBlock
+				:username="item.User.username"
+				:jawaban="item.isi"
+				:user_id="item.User.id"
+			/>
 		</div>
 
 		<!-- answer prompt -->
@@ -68,20 +72,25 @@ import { useRoute, useRouter } from "vue-router";
 
 const router = useRouter();
 const route = useRoute();
+const id = localStorage.getItem("id");
+const role = localStorage.getItem("role");
 
 const state = reactive({
 	id: route.params.id,
 	judul: "",
 	deskripsi: "",
-	user: [],
+	user: {},
 	jawaban: [],
 });
+
+let ownerQuestion;
 
 onMounted(async () => {
 	const question = await getQuestionById(state.id);
 	// console.log(question.data.data);
 	state.judul = question.data.data.judul;
 	state.deskripsi = question.data.data.deskripsi;
+	ownerQuestion = question.data.data.UserId == id || role == "admin";
 	const user = await getUserProfile(question.data.data.UserId);
 	state.user = user.data.data;
 	// console.log(user.data.data);
@@ -105,10 +114,6 @@ const sendAnswer = async () => {
 		console.log(err);
 	}
 };
-
-const id = localStorage.getItem("id");
-const ownerQuestion = state.user.id == id;
-const role = localStorage.getItem("role");
 
 const delQuestion = () => {
 	deleteQuestion(state.id);

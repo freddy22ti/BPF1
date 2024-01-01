@@ -57,6 +57,7 @@ export const deleteById = async (req, res) => {
 		where: {
 			id: id,
 		},
+		include: Jawaban,
 	})
 		.then(() => {
 			return res.status(200).json(Result.success());

@@ -94,6 +94,7 @@ import { Bars3Icon, XMarkIcon, PlusIcon } from "@heroicons/vue/24/outline";
 const navigation = [
 	{ name: "Home", href: "/", current: true },
 	{ name: "My Question", href: "/my_question", current: false },
+	{ name: "Logout", href: "/logout", current: false },
 	{ name: "Create", href: "/create", current: false },
 ];
 

@@ -5,17 +5,31 @@
 		</h2>
 		<p class="text-sm">{{ jawaban }}</p>
 
-		<button class="text-red-500 text-sm">Hapus</button>
+		<button v-if="owned" class="text-red-500 text-sm">Hapus</button>
 	</div>
 </template>
 
-<script>
-// import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/vue";
-export default {
-	props: {
-		id: String,
-		username: String,
-		jawaban: String,
+<script setup>
+import { defineProps } from "vue";
+const { id, username, jawaban, user_id } = defineProps({
+	id: {
+		type: String,
+		default: "",
 	},
-};
+	username: {
+		type: String,
+		default: "",
+	},
+	jawaban: {
+		type: String,
+		default: "",
+	},
+	user_id: {
+		type: String,
+		default: "",
+	},
+});
+const idUser = localStorage.getItem("id");
+
+const owned = user_id == idUser;
 </script>
