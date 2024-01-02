@@ -5,5 +5,5 @@ import ListQuestions from "@/components/Question/ListQuestions.vue";
 
 <template>
 	<Navbar />
-	<ListQuestions />
+	<MyListQuestions />
 </template>
