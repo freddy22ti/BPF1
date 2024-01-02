@@ -29,7 +29,7 @@ router.put(
 	[requireAuth, UserController.validateUserInformation],
 	UserController.updateById
 );
-router.get("/user/questions", requireAuth, PertanyaanController.getByUserId);
+router.get("/user/question", requireAuth, PertanyaanController.getByUserId);
 
 // Question
 router.get("/question", PertanyaanController.getAll);
