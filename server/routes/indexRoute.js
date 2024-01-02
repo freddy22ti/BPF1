@@ -34,6 +34,7 @@ router.get("/user/question", requireAuth, PertanyaanController.getByUserId);
 // Question
 router.get("/question", PertanyaanController.getAll);
 router.get("/question/:id", PertanyaanController.getById);
+router.get("/search/:judul", PertanyaanController.getByTitle);
 router.post(
 	"/question",
 	[requireAuth, PertanyaanController.validatePertanyaan],

@@ -72,10 +72,10 @@ export const updateById = async (req, res) => {
 };
 
 export const deleteById = async (req, res) => {
-	const { id_jawaban } = req.params;
+	const { id } = req.params;
 	await Jawaban.destroy({
 		where: {
-			id: id_jawaban,
+			id: id,
 		},
 	})
 		.then(() => {

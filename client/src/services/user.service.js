@@ -3,7 +3,7 @@ import authHeader from "./auth-header.js";
 
 const API_URL = "http://localhost:3000/api/";
 
-export const getUserProfile = async() => {
+export const getUserProfile = async () => {
 	return await axios.get(API_URL + "user", {
 		headers: authHeader(),
 	});
@@ -31,7 +31,6 @@ export const getQuestionByUserId = async () => {
 	});
 };
 
-
 export const createQuestion = (question) => {
 	return axios.post(API_URL + "question", question, {
 		headers: authHeader(),
@@ -50,11 +49,17 @@ export const deleteQuestion = (id) => {
 	});
 };
 
+export const searchQuestion = async (title) => {
+	return await axios.get(API_URL + "search/" + title, {
+		headers: authHeader(),
+	});
+};
+
 export const getAnswer = async (id) => {
 	return await axios.get(API_URL + "answer/" + id, {
 		headers: authHeader(),
 	});
-}
+};
 
 export const createAnswer = (answer) => {
 	return axios.post(API_URL + "answer", answer, {
@@ -68,8 +73,8 @@ export const createAnswer = (answer) => {
 // 	});
 // }
 
-export const deleteAnswer = (id) => {
-	return axios.get(API_URL + "answer/" + id, {
+export const deleteAnswer = async(id) => {
+	return await axios.delete(API_URL + "answer/" + id, {
 		headers: authHeader(),
 	});
 };

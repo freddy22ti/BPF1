@@ -5,12 +5,16 @@
 		</h2>
 		<p class="text-sm">{{ jawaban }}</p>
 
-		<button v-if="owned" class="text-red-500 text-sm">Hapus</button>
+		<a @click="delAnswer" v-if="owned" class="text-red-500 text-sm"
+			>Hapus</a
+		>
 	</div>
 </template>
 
 <script setup>
 import { defineProps } from "vue";
+import { deleteAnswer } from "@/services/user.service";
+
 const { id, username, jawaban, user_id } = defineProps({
 	id: {
 		type: String,
@@ -32,4 +36,9 @@ const { id, username, jawaban, user_id } = defineProps({
 const idUser = localStorage.getItem("id");
 
 const owned = user_id == idUser;
+
+const delAnswer = async () => {
+	await deleteAnswer(id);
+	window.location.reload();
+};
 </script>

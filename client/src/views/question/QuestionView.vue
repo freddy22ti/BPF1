@@ -15,13 +15,13 @@
 			<div class="mt-2">
 				<a
 					:href="'/edit/' + state.id"
-					v-if="ownerQuestion"
+					v-if="state.ownerQuestion"
 					class="text-yellow-500 text-sm font-bold"
 					>Edit</a
 				>
 				<a
 					@click="delQuestion"
-					v-if="ownerQuestion"
+					v-if="state.ownerQuestion"
 					class="text-red-500 text-sm mx-3 font-bold"
 					>Hapus</a
 				>
@@ -30,6 +30,7 @@
 		<!-- answer block -->
 		<div v-for="item in state.jawaban" :key="item.id">
 			<AnswerBlock
+				:id="item.id"
 				:username="item.User.username"
 				:jawaban="item.isi"
 				:user_id="item.User.id"
@@ -62,7 +63,6 @@ import AnswerBlock from "@/components/Answer/AnswerBlock.vue";
 import {
 	getQuestionById,
 	deleteQuestion,
-	getUserProfile,
 	getAnswer,
 	createAnswer,
 } from "@/services/user.service";
@@ -81,22 +81,17 @@ const state = reactive({
 	deskripsi: "",
 	user: {},
 	jawaban: [],
+	ownerQuestion: false,
 });
-
-let ownerQuestion;
 
 onMounted(async () => {
 	const question = await getQuestionById(state.id);
-	// console.log(question.data.data);
 	state.judul = question.data.data.judul;
 	state.deskripsi = question.data.data.deskripsi;
-	ownerQuestion = question.data.data.UserId == id || role == "admin";
-	const user = await getUserProfile(question.data.data.UserId);
-	state.user = user.data.data;
-	// console.log(user.data.data);
+	state.ownerQuestion = question.data.data.UserId == id || role == "admin";
+	state.user = question.data.data.User;
 	const jawaban = await getAnswer(state.id);
 	state.jawaban = jawaban.data.data;
-	// console.log(jawaban.data);
 });
 
 const answerUser = reactive({

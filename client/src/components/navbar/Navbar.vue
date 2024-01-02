@@ -52,6 +52,19 @@
 						</div>
 					</div>
 				</div>
+				<form @submit.prevent="search" class="flex items-center">
+					<input
+						type="text"
+						v-model="state.judulSearch"
+						placeholder="Search..."
+						class="px-2 py-1 text-sm rounded-md focus:outline-none focus:ring focus:border-blue-300"
+					/>
+					<button
+						class="ml-2 bg-blue-500 text-white px-3 py-1 rounded-md"
+					>
+						Search
+					</button>
+				</form>
 				<div
 					class="hidden md:block lg:block absolute inset-y-0 right-0 items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0"
 				>
@@ -90,6 +103,8 @@
 <script setup>
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
 import { Bars3Icon, XMarkIcon, PlusIcon } from "@heroicons/vue/24/outline";
+import { reactive } from "vue";
+import { useRouter } from "vue-router";
 
 const navigation = [
 	{ name: "Home", href: "/", current: true },
@@ -98,5 +113,12 @@ const navigation = [
 	{ name: "Create", href: "/create", current: false },
 ];
 
+const router = useRouter();
+const state = reactive({
+	judulSearch: "",
+});
 
+const search = () => {
+	router.push(`/search/${state.judulSearch}`);
+};
 </script>

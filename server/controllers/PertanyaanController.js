@@ -1,6 +1,8 @@
 import { Jawaban, Pertanyaan, User } from "../models/db.js";
+import { Op } from "sequelize";
 import * as Result from "../models/Result.js";
 import { body, validationResult } from "express-validator";
+import { response } from "express";
 
 export const create = async (req, res, next) => {
 	const result = validationResult(req);
@@ -41,6 +43,10 @@ export const getById = async (req, res) => {
 	await Pertanyaan.findOne({
 		where: {
 			id: id,
+		},
+		include: {
+			model: User,
+			attributes: ["id", "username", "email"],
 		},
 	})
 		.then((result) => {
@@ -99,8 +105,25 @@ export const getByUserId = async (req, res) => {
 	const UserId = req.user.id;
 	await Pertanyaan.findAll({
 		where: {
-			UserId,
-			UserId,
+			UserId: UserId,
+		},
+		order: [["createdAt", "DESC"]],
+	})
+		.then((result) => {
+			return res.status(200).json(Result.success(result));
+		})
+		.catch((err) => {
+			return res.status(500).json(Result.error(err));
+		});
+};
+
+export const getByTitle = async (req, res) => {
+	const { judul } = req.params;
+	await Pertanyaan.findAll({
+		where: {
+			judul: {
+				[Op.like]: `%${judul}%`,
+			},
 		},
 		order: [["createdAt", "DESC"]],
 	})

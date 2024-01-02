@@ -7,7 +7,9 @@ import Question from "@/views/question/QuestionView.vue";
 import MyQuestionView from "@/views/question/MyQuestionView.vue";
 import CreateQuestion from "@/views/question/CreateQuestion.vue";
 import EditQuestionView from "@/views/question/EditQuestionView.vue";
+import SearchQuestion from "@/views/question/SearchQuestion.vue";
 import ProfileView from "@/views/ProfileView.vue";
+import { ref } from "vue";
 
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
@@ -54,6 +56,12 @@ const router = createRouter({
 			meta: { requiresAuth: true },
 		},
 		{
+			path: "/search/:judul",
+			name: "search question by title",
+			component: SearchQuestion,
+			meta: { requiresAuth: true },
+		},
+		{
 			path: "/my_question",
 			name: "My Question",
 			component: MyQuestionView,
@@ -64,6 +72,13 @@ const router = createRouter({
 			name: "profile",
 			component: ProfileView,
 			meta: { requiresAuth: true },
+		},
+		{
+			path: "/:catchAll(.*)",
+			name: "not-found",
+			redirect: { name: "home" },
+			// component: () => import("@/views/NotFoundView.vue"), // Import your "not-found" view
+			
 		},
 	],
 });
@@ -77,10 +92,7 @@ router.beforeEach((to, from, next) => {
 	) {
 		// Redirect to login if the route requires authentication and the user is not authenticated
 		next("/login");
-	} else if (
-		to.name === "login" &&
-		isAuthenticated
-	) {
+	} else if (to.name === "login" && isAuthenticated) {
 		// Redirect to the home page if the user is already authenticated and tries to access the login page
 		next("/");
 	} else {
