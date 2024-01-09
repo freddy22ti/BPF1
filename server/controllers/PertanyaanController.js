@@ -2,7 +2,6 @@ import { Jawaban, Pertanyaan, User } from "../models/db.js";
 import { Op } from "sequelize";
 import * as Result from "../models/Result.js";
 import { body, validationResult } from "express-validator";
-import { response } from "express";
 
 export const create = async (req, res, next) => {
 	const result = validationResult(req);
@@ -34,6 +33,7 @@ export const getAll = async (req, res, next) => {
 			return res.status(200).json(Result.success(result));
 		})
 		.catch((err) => {
+			console.log(err);
 			return res.status(500).json(Result.error(err));
 		});
 };
@@ -113,6 +113,7 @@ export const getByUserId = async (req, res) => {
 			return res.status(200).json(Result.success(result));
 		})
 		.catch((err) => {
+			console.log(err);
 			return res.status(500).json(Result.error(err));
 		});
 };

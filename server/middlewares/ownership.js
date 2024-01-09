@@ -13,3 +13,10 @@ export const ownedByOwnerAndAdmin = (req, res, next) => {
 	}
 	return res.status(401).json(Result.error("You are not authorized")).end();
 };
+
+export const isAdmin = (req, res, next) => {
+	if (req.user.role == "admin") {
+		return next();
+	}
+	return res.status(401).json(Result.error("You are not authorized")).end();
+};

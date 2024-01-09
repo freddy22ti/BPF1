@@ -1,5 +1,5 @@
 <template>
-	<div class="w-full p-5 rounded flex-auto">
+	<div class="w-full py-5 rounded flex-auto">
 		<h2 class="font-bold text-gray-800 text-lg mb-2">
 			{{ username }}
 		</h2>

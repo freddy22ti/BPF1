@@ -3,6 +3,8 @@ import * as PertanyaanController from "../controllers/PertanyaanController.js";
 import * as JawabanController from "../controllers/JawabanController.js";
 import * as AuthController from "../controllers/AuthController.js";
 import * as UserController from "../controllers/UserController.js";
+import * as KategoriController from "../controllers/KategoriController.js";
+import * as VotesController from "../controllers/VotesController.js";
 
 import { requireAuth } from "../middlewares/auth.js";
 import {
@@ -10,7 +12,11 @@ import {
 	validateLogin,
 	validateRegister,
 } from "../middlewares/verifySignup.js";
-import { owned, ownedByOwnerAndAdmin } from "../middlewares/ownership.js";
+import {
+	owned,
+	ownedByOwnerAndAdmin,
+	isAdmin,
+} from "../middlewares/ownership.js";
 
 const router = express.Router();
 
@@ -45,11 +51,7 @@ router.put(
 	[requireAuth, PertanyaanController.validatePertanyaan],
 	PertanyaanController.updateById
 ); // update
-router.delete(
-	"/question/:id",
-	[requireAuth],
-	PertanyaanController.deleteById
-); // delete
+router.delete("/question/:id", [requireAuth], PertanyaanController.deleteById); // delete
 
 // answer
 router.get("/answer/:question", JawabanController.getByQuestionId);
@@ -60,13 +62,28 @@ router.post(
 );
 router.put(
 	"/answer/:id",
-	[requireAuth,  JawabanController.validateJawaban],
+	[requireAuth, JawabanController.validateJawaban],
 	JawabanController.updateById
 );
-router.delete(
-	"/answer/:id",
-	[requireAuth ],
-	JawabanController.deleteById
+router.delete("/answer/:id", [requireAuth], JawabanController.deleteById);
+
+
+// kategori
+router.get("/kategori", KategoriController.getAll);
+router.post(
+	"/kategori",
+	[requireAuth, isAdmin, KategoriController.validateKategori],
+	KategoriController.create
 );
+router.delete(
+	"/kategori/:id",
+	[requireAuth, isAdmin],
+	KategoriController.deleteById
+);
+
+
+// votes
+router.post("/vote/:id", requireAuth, VotesController.create);
+router.delete("/vote/:id", requireAuth, VotesController.deleteById);
 
 export default router;

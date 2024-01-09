@@ -3,8 +3,8 @@
 		<Navbar />
 	</header>
 	<!-- question block -->
-	<main class="m-5">
-		<div class="border-b border-gray-900/10 pb-12">
+	<main class="m-8">
+		<div class="border-b border-gray-900/10 pb-6">
 			<h2 class="w-full font-bold text-2xl mb-2 text-blue-500">
 				Q: {{ state.judul }}
 			</h2>
