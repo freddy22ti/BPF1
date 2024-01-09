@@ -32,9 +32,11 @@ export const getByQuestionId = async (req, res) => {
 		where: {
 			PertanyaanId: question,
 		},
-		order:[
-			['createdAt', 'DESC'],
-		]
+		order: [["createdAt", "DESC"]],
+		include: {
+			model: User,
+			attributes: ["username"],
+		},
 	})
 		.then((result) => {
 			return res.status(200).json(Result.success(result));

@@ -91,7 +91,7 @@ export const validateRegister = [
 		.isLength({ max: 50 })
 		.withMessage("must be at most 50 characters long"),
 
-	body("confirmPassword")
+	body("konfirmasiPassword")
 		.custom((value, { req }) => {
 			if (value !== req.body.password) {
 				throw new Error("Passwords do not match");

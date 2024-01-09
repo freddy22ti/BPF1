@@ -2,13 +2,15 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "@/views/HomeView.vue";
 import LoginView from "@/views/auth/LoginView.vue";
 import RegisterView from "@/views/auth/RegisterView.vue";
-import LogoutView from "@/views/auth/LogoutView.vue";
 import Question from "@/views/question/QuestionView.vue";
 import MyQuestionView from "@/views/question/MyQuestionView.vue";
 import CreateQuestion from "@/views/question/CreateQuestion.vue";
 import EditQuestionView from "@/views/question/EditQuestionView.vue";
 import SearchQuestion from "@/views/question/SearchQuestion.vue";
+import KategoriQuestion from "@/views/question/KategoriQuestion.vue";
 import ProfileView from "@/views/profile/ProfileView.vue";
+
+import { logout } from "@/services/auth.service";
 
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
@@ -26,7 +28,11 @@ const router = createRouter({
 		{
 			path: "/logout",
 			name: "Logout",
-			component: LogoutView,
+			// component: LogoutView,
+			beforeEnter: (to, from, next) => {
+				logout();
+				next("/");
+			},
 			meta: { requiresAuth: true },
 		},
 		{
@@ -41,12 +47,17 @@ const router = createRouter({
 		},
 		{
 			path: "/search/:judul",
-			name: "search question by title",
+			name: "Cari berdasarkan judul",
 			component: SearchQuestion,
 		},
 		{
-			path: "/create",
-			name: "Create Question",
+			path: "/kategori",
+			name: "Cari berdasarkan kategori",
+			component: KategoriQuestion,
+		},
+		{
+			path: "/tambah",
+			name: "Buat Question",
 			component: CreateQuestion,
 			meta: { requiresAuth: true },
 		},
@@ -56,7 +67,6 @@ const router = createRouter({
 			component: EditQuestionView,
 			meta: { requiresAuth: true },
 		},
-
 		{
 			path: "/my_question",
 			name: "My Question",
@@ -95,7 +105,7 @@ router.beforeEach((to, from, next) => {
 	}
 });
 
-function checkAuthentication() {
+export function checkAuthentication() {
 	// Implement your authentication check logic here
 	// For example, check if the user is logged in by examining a token or a user object in your app state
 

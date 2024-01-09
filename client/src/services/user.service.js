@@ -73,8 +73,14 @@ export const createAnswer = (answer) => {
 // 	});
 // }
 
-export const deleteAnswer = async(id) => {
+export const deleteAnswer = async (id) => {
 	return await axios.delete(API_URL + "answer/" + id, {
+		headers: authHeader(),
+	});
+};
+
+export const getKategori = async () => {
+	return await axios.get(`${API_URL}kategori/`, {
 		headers: authHeader(),
 	});
 };

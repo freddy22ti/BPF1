@@ -72,7 +72,7 @@ router.delete("/answer/:id", [requireAuth], JawabanController.deleteById);
 router.get("/kategori", KategoriController.getAll);
 router.post(
 	"/kategori",
-	[requireAuth, isAdmin, KategoriController.validateKategori],
+	[requireAuth, KategoriController.validateKategori],
 	KategoriController.create
 );
 router.delete(

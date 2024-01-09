@@ -7,10 +7,10 @@ export const create = async (req, res) => {
 	if (!result.isEmpty()) {
 		return res.status(422).json(Result.error("Missing values"));
 	}
-	const { isi } = req.body;
+	const { kategori } = req.body;
 
 	await Kategori.create({
-		kategori: isi,
+		kategori: kategori,
 	})
 		.then(() => {
 			return res.status(201).json(Result.success());
@@ -23,6 +23,7 @@ export const create = async (req, res) => {
 export const getAll = async (req, res) => {
 	await Kategori.findAll({
 		order: [["kategori", "ASC"]],
+		attributes: { exclude: ["createdAt", "updatedAt"] },
 	})
 		.then((result) => {
 			return res.status(200).json(Result.success(result));

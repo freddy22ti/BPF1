@@ -9,15 +9,18 @@ export const create = async (req, res, next) => {
 		return res.status(422).json(Result.error("Missing values"));
 	}
 
-	const { judul, deskripsi } = req.body;
+	const { judul, deskripsi, kategori } = req.body;
 	const user_id = req.user.id;
+
+	console.log(req.body);
 
 	await Pertanyaan.create({
 		UserId: user_id,
 		judul: judul,
 		deskripsi: deskripsi,
 	})
-		.then(() => {
+		.then((response) => {
+			// console.log(response.id); // tambahin kategori berdasarkan id
 			return res.status(201).json(Result.success());
 		})
 		.catch((err) => {
@@ -28,6 +31,10 @@ export const create = async (req, res, next) => {
 export const getAll = async (req, res, next) => {
 	await Pertanyaan.findAll({
 		order: [["createdAt", "DESC"]],
+		include: {
+			model: User,
+			attributes: ["username"],
+		},
 	})
 		.then((result) => {
 			return res.status(200).json(Result.success(result));
@@ -108,6 +115,11 @@ export const getByUserId = async (req, res) => {
 			UserId: UserId,
 		},
 		order: [["createdAt", "DESC"]],
+		attributes: { exclude: ["createdAt", "updatedAt"] },
+		include: {
+			model: User,
+			attributes: ["username"],
+		},
 	})
 		.then((result) => {
 			return res.status(200).json(Result.success(result));
@@ -127,6 +139,11 @@ export const getByTitle = async (req, res) => {
 			},
 		},
 		order: [["createdAt", "DESC"]],
+		attributes: { exclude: ["createdAt", "updatedAt"] },
+		include: {
+			model: User,
+			attributes: ["username"],
+		},
 	})
 		.then((result) => {
 			return res.status(200).json(Result.success(result));
