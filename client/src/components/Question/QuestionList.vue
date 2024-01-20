@@ -7,12 +7,18 @@
 				:key="item.id"
 				class=""
 				variants="plain"
-			>
+				>
 				<template v-slot:prepend>
-					<v-avatar color="red">
+					<v-avatar v-if="!item.selesai" color="red">
 						<v-icon
 							color="white"
-							icon="far fa-circle-question "
+							icon="far fa-circle-question"
+						></v-icon>
+					</v-avatar>
+					<v-avatar v-if="item.selesai" color="green">
+						<v-icon
+							color="white"
+							icon="fas fa-check"
 						></v-icon>
 					</v-avatar>
 				</template>

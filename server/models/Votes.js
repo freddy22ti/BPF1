@@ -10,6 +10,10 @@ export const VotesModel = (sequelize) => {
 				autoIncrement: true,
 				primaryKey: true,
 			},
+			nilai: {
+				type: DataTypes.BOOLEAN,
+				allowNull: false
+			},
 			UserId: {
 				type: DataTypes.UUID,
 				allowNull: false,

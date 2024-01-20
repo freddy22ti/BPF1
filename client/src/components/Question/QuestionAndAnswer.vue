@@ -9,17 +9,26 @@
 			class="mb-5"
 		>
 			<template v-slot:prepend>
-				<v-avatar color="red">
+				<v-avatar v-if="!state.selesai" color="red">
 					<v-icon
 						color="white"
 						icon="far fa-circle-question "
 					></v-icon>
 				</v-avatar>
+				<v-avatar v-if="state.selesai" color="green">
+					<v-icon color="white" icon="fas fa-check"></v-icon>
+				</v-avatar>
 			</template>
 
-			<v-card-actions class="d-flex justify-end">
+			<v-card-actions class="d-flex justify-end" v-if="state.ownerQuestion">
 				<v-btn
-					v-if="state.ownerQuestion"
+					@click="markAsDone"
+					color="green"
+					:variant=" !state.selesai ? 'flat' : 'outlined'"
+					class="mx-2"
+					>Selesai</v-btn
+				>
+				<v-btn
 					:href="'/edit/' + state.id"
 					color="yellow"
 					variant="flat"
@@ -27,7 +36,6 @@
 					>Edit</v-btn
 				>
 				<v-btn
-					v-if="state.ownerQuestion"
 					@click="delQuestion"
 					color="red"
 					variant="flat"
@@ -91,7 +99,6 @@ onMounted(async () => {
 	state.jawaban = jawaban.data.data;
 });
 
-
 const answerUser = reactive({
 	isi: "",
 });
@@ -112,4 +119,9 @@ const delQuestion = () => {
 	deleteQuestion(state.id);
 	router.push("/");
 };
+
+const markAsDone = () => {
+
+}
+
 </script>

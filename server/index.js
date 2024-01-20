@@ -2,9 +2,9 @@ import config from "./config.js";
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
-import { User, sequelize } from "./models/db.js";
+import { sequelize } from "./models/db.js";
 
-import indexRoute from "./routes/indexRoute.js";
+import route from "./router.js";
 
 const app = express();
 const { SERVER_PORT: port, SERVER_ADDRESS: address } = config;
@@ -20,7 +20,7 @@ app.use(express.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/api", indexRoute);
+app.use("/api", route);
 
 // exception untuk url tidak sah
 app.use("*", (req, res) => {
@@ -38,22 +38,6 @@ app.use((error, req, res, next) => {
 
 // buat tabel
 try {
-	// sequelize.sync({ force: true }).then(() => {
-	// 	User.create({
-	// 		username: "vinonyx",
-	// 		email: "davin@gmail.com",
-	// 		password:
-	// 			"$2b$10$TWRpT2KWGWUzsIDpVV3MkuZgS.Zf5XzzbvzEEdEm.E4jerYmhuR6.",
-	// 		role: "user",
-	// 	});
-	// 	User.create({
-	// 		username: "raxean",
-	// 		email: "jeremy@gmail.com",
-	// 		password:
-	// 			"$2b$10$H0AwdwtDLTi4uoXPLejX0ePlyzXbRtqPXu.NVB.fpzgIrNpCwn/py",
-	// 		role: "user",
-	// 	});
-	// }); // for development only
 	sequelize.sync();
 } catch (err) {
 	console.log(err);

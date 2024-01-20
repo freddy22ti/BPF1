@@ -17,6 +17,10 @@ export const PertanyaanModel = (sequelize) => {
 				type: DataTypes.STRING,
 				allowNull: false,
 			},
+			selesai: {
+				type: DataTypes.BOOLEAN,
+				defaultValue: false,
+			},
 		},
 		{
 			tableName: "pertanyaan",

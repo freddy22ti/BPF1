@@ -13,6 +13,10 @@ export const JawabanModel = (sequelize) => {
 				type: DataTypes.STRING,
 				allowNull: false,
 			},
+			verified: {
+				type: DataTypes.BOOLEAN,
+				defaultValue: false,
+			},
 		},
 		{
 			tableName: "jawaban",

@@ -35,6 +35,7 @@ Pertanyaan.hasMany(KategoriPertanyaan);
 // FK tabel jawaban
 Jawaban.belongsTo(Pertanyaan);
 Jawaban.belongsTo(User);
+Jawaban.hasMany(Votes)
 
 // FK tabel user
 User.hasMany(Pertanyaan);

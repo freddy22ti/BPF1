@@ -84,3 +84,21 @@ export const getKategori = async () => {
 		headers: authHeader(),
 	});
 };
+
+export const createVote = async (id, value) => {
+	return await axios.post(`${API_URL}vote/${id}`, value, {
+		headers: authHeader(),
+	});
+};
+
+export const deleteVote = async (id) => {
+	return await axios.delete(`${API_URL}vote/${id}`, {
+		headers: authHeader(),
+	});
+};
+
+export const verifyAnswer = async (id) => {
+	return await axios.get(`${API_URL}verifyAnswer/${id}`, {
+		headers: authHeader(),
+	});
+};

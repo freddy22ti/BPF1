@@ -1,6 +1,69 @@
 <template>
 	<Navbar />
-	<div class="flex items-center justify-center min-h-screen">
+	<v-main class="d-flex justify-center align-center">
+		<v-card
+			class="mx-auto pa-12 pb-8 w-100"
+			elevation="8"
+			max-width="600"
+			rounded="lg"
+		>
+			<v-form v-model="form" @submit.prevent="onSubmit">
+				<div
+					class="text-h5 text-center font-weight-medium mb-5 mx-auto"
+					max-width="228"
+				>
+					Edit Pertanyaan
+				</div>
+				<div class="text-subtitle-2">Judul</div>
+				<v-text-field
+					v-model="state.judul"
+					:readonly="loading"
+					:rules="[required]"
+					class="mb-4"
+					clearable
+					variant="underlined"
+					placeholder="Masalah kamu"
+				></v-text-field>
+
+				<div class="text-subtitle-2">Deskripsi</div>
+				<v-textarea
+					v-model="state.deskripsi"
+					:readonly="loading"
+					:rules="[required]"
+					class="mb-4"
+					variant="underlined"
+					placeholder="Jelaskan masalah kamu"
+				></v-textarea>
+
+				<div class="text-subtitle-2">Kategori</div>
+				<v-select
+					v-model="state.kategoriPertanyaan"
+					:items="state.kategori"
+					:item-props="kategoriProps"
+					chips
+					multiple
+					variant="underlined"
+				></v-select>
+
+				<v-btn
+					:disabled="!form"
+					:loading="loading"
+					block
+					color="success"
+					size="large"
+					type="submit"
+					variant="elevated"
+				>
+					edit pertanyaan
+				</v-btn>
+
+				<div v-if="error" class="mt-5 text-center text-red">
+					{{ error }}
+				</div>
+			</v-form>
+		</v-card>
+	</v-main>
+	<!-- <div class="flex items-center justify-center min-h-screen">
 		<div
 			class="w-full max-w-lg px-10 py-8 mx-auto bg-white border rounded-lg shadow-2xl"
 		>
@@ -38,21 +101,28 @@
 				</div>
 			</form>
 		</div>
-	</div>
+	</div> -->
 </template>
 <script setup>
 import Navbar from "@/components/navbar/Navbar.vue";
 import { onMounted, reactive } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { getQuestionById, updateQuestion } from "@/services/user.service";
+import { ref } from "vue";
 
 const route = useRoute();
 const router = useRouter();
+
+const form = ref(false);
+const loading = ref(false);
+const error = ref("");
 
 const state = reactive({
 	id: route.params.id,
 	judul: "",
 	deskripsi: "",
+	kategoriPertanyaan: [],
+	kategori: [],
 });
 
 onMounted(async () => {
@@ -61,7 +131,7 @@ onMounted(async () => {
 	state.deskripsi = question.data.data.deskripsi;
 });
 
-const postMethod = async () => {
+const onSubmit = async () => {
 	const data = {
 		judul: state.judul,
 		deskripsi: state.deskripsi,
@@ -69,4 +139,16 @@ const postMethod = async () => {
 	await updateQuestion(state.id, data);
 	router.push("/");
 };
+
+const kategoriProps = (item) => {
+	return {
+		value: item.id,
+		title: item.kategori,
+	};
+};
+
+const required = (v) => {
+	return !!v || "Harus diisi";
+};
+
 </script>
